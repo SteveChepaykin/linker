@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import 'package:referal_market/screens/serviceexample_list_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   static const path = "home";
@@ -19,16 +21,16 @@ class _HomeScreenState extends State<HomeScreen> {
         actions: [
           TextButton(
             onPressed: () {},
-            child: Text("Раздел 1"),
+            child: Text("Все предложения"),
           ),
-          TextButton(
-            onPressed: () {},
-            child: Text("Раздел 2"),
-          ),
-          TextButton(
-            onPressed: () {},
-            child: Text("Раздел 3"),
-          ),
+          // TextButton(
+          //   onPressed: () {},
+          //   child: Text("Раздел 2"),
+          // ),
+          // TextButton(
+          //   onPressed: () {},
+          //   child: Text("Раздел 3"),
+          // ),
           PopupMenuButton(
             icon: Icon(Icons.menu),
             itemBuilder: (context) => [
@@ -45,7 +47,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 value: 3,
               ),
             ],
-            onSelected: (v) {},
+            onSelected: processClick
           ),
         ],
       ),
@@ -55,19 +57,33 @@ class _HomeScreenState extends State<HomeScreen> {
             delegate: SliverChildListDelegate(
               [
                 Container(
+                  padding: EdgeInsets.all(30),
                   height: MediaQuery.of(context).size.height,
                   decoration: BoxDecoration(
                     color: Colors.red,
                   ),
                   child: Center(
-                    child: Column(
-                      children: [
-                        TextField(),
-                        ElevatedButton(
-                          onPressed: () {},
-                          child: Text("Кнопка"),
-                        ),
-                      ],
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      constraints: BoxConstraints(
+                        maxWidth: 500,
+                        maxHeight: 400,
+                        minHeight: 80,
+                        minWidth: 100,
+                      ),
+                      padding: EdgeInsets.all(20),
+                      child: Column(
+                        children: [
+                          TextField(),
+                          ElevatedButton(
+                            onPressed: () {},
+                            child: Text("Кнопка"),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 ),
@@ -101,12 +117,33 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                   child: Center(
                     child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        TextField(),
-                        ElevatedButton(
-                          onPressed: () {},
-                          child: Text("Кнопка"),
+                        ...pointBlock(1),
+                        ...pointBlock(2),
+                        ...pointBlock(3, isLast: true),
+                      ],
+                    ),
+                  ),
+                ),
+                Container(
+                  padding: EdgeInsets.all(30),
+                  height: MediaQuery.of(context).size.height,
+                  decoration: BoxDecoration(
+                    color: Colors.red,
+                  ),
+                  child: Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          "ЗАВЛЕКАЮЩИЙ ТЕКСТ?",
+                          style: TextStyle(
+                            fontSize: 30,
+                          ),
                         ),
+                        ElevatedButton(onPressed: () {}, child: Text("Зарегистрироваться"))
                       ],
                     ),
                   ),
@@ -118,4 +155,28 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
     );
   }
+
+  void processClick(int res) {
+    if(res == 1) {
+      context.go(ServiceExampleListScreen.path);
+    }
+  }
+
+  List<Widget> pointBlock(int number, {bool isLast = false}) => [
+        CircleAvatar(
+          maxRadius: 20,
+          backgroundColor: Colors.yellow,
+          child: Text(number.toString()),
+        ),
+        Text("TEXT $number"),
+        if (!isLast)
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 8),
+            child: Container(
+              width: 5,
+              height: 30,
+              color: Colors.yellow,
+            ),
+          ),
+      ];
 }
